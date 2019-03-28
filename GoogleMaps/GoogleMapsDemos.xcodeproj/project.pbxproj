@@ -69,6 +69,7 @@
 		C0210C5B8B348A0348D92DA9 /* step8@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E5AF68BBC86BA530755A20 /* step8@2x.png */; };
 		C2BC30E26D4D2515FDB15848 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6614BE28012C7A7508437047 /* arrow.png */; };
 		C3BC945D74D0E19BCCA532DE /* voyager.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B3B4C44092471CA56ACFD4C /* voyager.png */; };
+		C638C7F6224D2086002DF99B /* geojson.json in Resources */ = {isa = PBXBuildFile; fileRef = C638C7F5224D2086002DF99B /* geojson.json */; };
 		C72603316F6FF384698A4B60 /* MapLayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7BBD64FA078FC4259FCBD2 /* MapLayerViewController.m */; };
 		CEF41B4E3CA0239A4A40AD88 /* step3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A3AE3B168663EA43D3F2F259 /* step3@2x.png */; };
 		D1F449DB26302844C2A9DE2A /* VisibleRegionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0518A8C9E543FFBA7F8305E /* VisibleRegionViewController.m */; };
@@ -202,6 +203,7 @@
 		C3E84ED0331DFB2A7082CA36 /* MarkerLayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MarkerLayerViewController.m; sourceTree = "<group>"; };
 		C4C3F5556675D1A9408F7C5F /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		C56541EDCEFDB922783385B5 /* voyager@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "voyager@2x.png"; sourceTree = "<group>"; };
+		C638C7F5224D2086002DF99B /* geojson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = geojson.json; sourceTree = "<group>"; };
 		C762E469D796AFF83D3516EF /* FixedPanoramaViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FixedPanoramaViewController.m; sourceTree = "<group>"; };
 		C7AD415580B4A6B35532456A /* DemoAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoAppDelegate.m; sourceTree = "<group>"; };
 		CF8997BED409E528D34BA344 /* PolylinesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PolylinesViewController.h; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 				B7B684AAFC3CA2232721C6D0 /* step8.png */,
 				D5E5AF68BBC86BA530755A20 /* step8@2x.png */,
 				AD6B1AF49A87CC079E9CA862 /* track.json */,
+				C638C7F5224D2086002DF99B /* geojson.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -545,6 +548,7 @@
 				C0210C5B8B348A0348D92DA9 /* step8@2x.png in Resources */,
 				15C05007C9E2A96F24EA9F5E /* newark_nj_1922.jpg in Resources */,
 				4AF30BA2FC6298BE86F69993 /* mapstyle-night.json in Resources */,
+				C638C7F6224D2086002DF99B /* geojson.json in Resources */,
 				FF8065B590AD6493752A8632 /* mapstyle-retro.json in Resources */,
 				D9978336CFEF2FB35E1512B7 /* mapstyle-silver.json in Resources */,
 				A04BBCC3FF015903AF7CD93F /* museum-exhibits.json in Resources */,
@@ -669,6 +673,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INTERMEDIATE_DIR = "$(PROJECT_DERIVED_FILE_DIR)/$(CONFIGURATION)";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SDKROOT = iphoneos;
 				SHARED_INTERMEDIATE_DIR = "$(SYMROOT)/DerivedSources/$(CONFIGURATION)";
 			};

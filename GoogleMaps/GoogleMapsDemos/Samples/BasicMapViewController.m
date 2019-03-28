@@ -26,13 +26,18 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:-33.868
-                                                          longitude:151.2086
-                                                               zoom:6];
+    
+  GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:43.65435
+                                                            longitude:-79.4262802
+                                                                 zoom:20];
+    
   GMSMapView *view = [GMSMapView mapWithFrame:CGRectZero camera:camera];
   view.delegate = self;
   self.view = view;
 
+    // Start loading custom map overlay
+    [self parseJSONData];
+    
   // Add status label, initially hidden.
   _statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 30)];
   _statusLabel.alpha = 0.0f;
@@ -42,6 +47,71 @@
   _statusLabel.textAlignment = NSTextAlignmentCenter;
 
   [view addSubview:_statusLabel];
+}
+
+- (void)parseJSONData {
+    NSURL *dataPath = [[NSBundle mainBundle] URLForResource:@"geojson" withExtension:@"json"];
+    NSString *stringPath = [dataPath absoluteString];
+    NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:stringPath]];
+    
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:NULL];
+    
+    [self renderMapWithDict:jsonDict];
+}
+
+- (void)renderMapWithDict:(NSDictionary *)jsonDict {
+    NSMutableArray *featuresArray = jsonDict[@"features"];
+    for (NSDictionary *feature in featuresArray) {
+        NSDictionary *geometry = feature[@"geometry"];
+        NSString *shape = geometry[@"type"];
+        if ([shape isEqualToString:@"Polygon"]) {
+            // Grab the coordinates of it
+            NSArray *coordinates = geometry[@"coordinates"];
+            if (coordinates.count > 0) {
+                [self renderPolygon:coordinates];
+            }
+        }
+    }
+}
+
+- (void)renderPolygon:(NSArray *)coordinates {
+    NSArray <GMSPath*>* paths = [self pathArrayFromCoordinatesArray:coordinates];
+    GMSPath *outerBoundaries = paths.firstObject;
+    NSArray *innerBoundaries = [[NSArray alloc] init];
+    if (paths.count > 1) {
+        innerBoundaries =
+        [paths subarrayWithRange:NSMakeRange(1, paths.count - 1)];
+    }
+    NSMutableArray<GMSPath *> *holes = [[NSMutableArray alloc] init];
+    for (GMSPath *hole in innerBoundaries) {
+        [holes addObject:hole];
+    }
+    GMSPolygon *poly = [GMSPolygon polygonWithPath:outerBoundaries];
+    if (holes.count) {
+        poly.holes = holes;
+    }
+    poly.map = (GMSMapView *)self.view;
+}
+
+- (NSArray<GMSPath *> *)pathArrayFromCoordinatesArray:(NSArray<NSArray *> *)coordinates {
+    NSMutableArray<GMSPath *> *parsedPaths = [[NSMutableArray alloc] init];
+    for (NSArray<NSArray *> *coordinateArray in coordinates) {
+        [parsedPaths addObject:[self pathFromCoordinateArray:coordinateArray]];
+    }
+    return parsedPaths;
+}
+
+- (GMSPath *)pathFromCoordinateArray:(NSArray<NSArray *> *)coordinates {
+    GMSMutablePath *path = [[GMSMutablePath alloc] init];
+    for (NSArray *coordinate in coordinates) {
+        [path addCoordinate:[self locationFromCoordinate:coordinate].coordinate];
+    }
+    return path;
+}
+
+- (CLLocation *)locationFromCoordinate:(NSArray *)coordinate {
+    return [[CLLocation alloc] initWithLatitude:[coordinate[1] doubleValue]
+                                      longitude:[coordinate[0] doubleValue]];
 }
 
 - (void)mapViewDidStartTileRendering:(GMSMapView *)mapView {
